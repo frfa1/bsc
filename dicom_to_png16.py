@@ -36,7 +36,9 @@ def all_inbreast_to_png(meta_df, base_path):
         #save_dicom_image_as_png(full_dicom_path, full_png_path)
 
         flnm = int(dicom_filename.split("_")[0])
-        meta_df.loc[meta_df["File Name"] == flnm, "png_file"] = full_png_path
+        meta_df.loc[meta_df["File Name"] == flnm, "png_path"] = full_png_path
+        meta_df.loc[meta_df["File Name"] == flnm, "png_filename"] = png_filename
+        meta_df.loc[meta_df["File Name"] == flnm, "png_base"] = png_base
 
     return meta_df
 
@@ -45,16 +47,19 @@ def all_inbreast_to_png(meta_df, base_path):
 
 def main():
 
-    base_path = '../data/INbreast Release 1.0'
+    base_path = '../data/INbreast'
     meta_df = pd.read_csv(
         base_path + "/INbreast.csv",
         delimiter = ";"
     )
-    meta_df["png_file"] = 0
+    meta_df["png_path"] = 0
+    meta_df["png_filename"] = 0
+    meta_df["png_base"] = 0
     meta_df = all_inbreast_to_png(meta_df, base_path)
 
-    wrangled_data_base = "wrangled_data"
-    meta_df.to_csv(wrangled_data_base + "/" "INbreast_with_img_loc.csv")
+    meta_data_base = "meta_data"
+    meta_df.to_csv(meta_data_base + "/" "INbreast_with_img_loc.csv", index=False)
+
 
 
 if __name__ == "__main__":
