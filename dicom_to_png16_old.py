@@ -3,7 +3,6 @@ import png
 import pydicom
 import os
 import pandas as pd
-from pathlib import PureWindowsPath, PurePosixPath
 
 
 def save_dicom_image_as_png(dicom_filename, png_filename, bitdepth=12):
@@ -19,6 +18,7 @@ def save_dicom_image_as_png(dicom_filename, png_filename, bitdepth=12):
         writer.write(f, image.tolist())
 
 def all_inbreast_to_png(meta_df, base_path):
+    png_folder = "png_versions"
     dicom_base = base_path + "/AllDICOMs"
     png_base = base_path + "/png_versions"
     
@@ -42,52 +42,10 @@ def all_inbreast_to_png(meta_df, base_path):
 
     return meta_df
 
-def all_ddsm_to_png(meta_df, basepath):
-
-    count = 0
-    for row in meta_df.itertuples():
-        count += 1
-        if count % 10 == 0:
-            print(count)
-        
-        path = PureWindowsPath(row._17)
-        path = basepath / path
-        path = PurePosixPath(path)
-
-        # Create png_versions folder
-        dirName = "png_versions"
-        if not os.path.exists(path / dirName):
-            os.mkdir(path / dirName)
-            print("Directory " , dirName ,  " Created ")
-        else:    
-            print("Directory " , dirName ,  " already exists")
-
-        for file in os.listdir(path):
-            dcmpath = path / file
-            if not file.endswith(".dcm"): # Check only for dcm files
-                continue
-            png_filename = os.fsdecode(file).replace(".dcm", ".png")
-            full_png_path = path / "png_versions" / png_filename
-
-            #print(png_filename)
-            #print(dcmpath)
-            #print(full_png_path)
-            #print("\n")
-
-            save_dicom_image_as_png(dcmpath, full_png_path, bitdepth=16)
-
-            flnm = row._17
-            meta_df.loc[meta_df["File Location"] == flnm, "png_path"] = full_png_path
-            meta_df.loc[meta_df["File Location"] == flnm, "png_filename"] = png_filename
-            meta_df.loc[meta_df["File Location"] == flnm, "png_base"] = path / "png_versions"
-
-    return meta_df
-
         
 
 
 def main():
-    pass
 
     base_path = '../data/INbreast'
     meta_df = pd.read_csv(
