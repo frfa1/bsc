@@ -19,3 +19,7 @@ I suggest we talk about the following:
 - How can I ensure that the normalisation / preprocessing methods in the pipeline are correct when testing? I.e. what are the exact steps I should look for?
 - Which methods should I use to analyze the differences across data sets, that may account for a lack of model robustness?
 - Another resort is to give the model the optimal cicumstancens by adding the "heatmap generation" step to the pipeline and do the test on cluster (GPU).
+
+**Edit / own suggestions**:
+- E-mail the founders of the model/paper and ask for access to a subset of their data to test on, as a way to overfit
+- Train the model from scratch on a varied data set, including subsets of the data to test on. This ensures consistent data distributions.
