@@ -28,7 +28,7 @@ meta = pd.read_csv(
 unique_patients = meta.loc[:, "patient_id"].unique()
 
 for patient in unique_patients:
-    print(patient)
+    meta
 
 
 

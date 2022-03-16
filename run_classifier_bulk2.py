@@ -44,7 +44,7 @@ def run_model_column(row): #cropped_png_location, subject_id): #row): #df):
         "max_crop_size_noise": 100,
         "batch_size": 1,
         "seed": 0,
-        "augmentation": True,
+        "augmentation": False,
         "use_hdf5": True,
     }
 
@@ -56,7 +56,7 @@ def run_model_column(row): #cropped_png_location, subject_id): #row): #df):
     image_only_parameters["model_path"] = "../breast_cancer_classifier/models/ImageOnly__ModeImage_weights.p"
     image_only_parameters["cropped_mammogram_path"] = cropped_png_location
     image_only_parameters["metadata_path"] = metadata_path
-    image_only_parameters["num_epochs"] = 3
+    image_only_parameters["num_epochs"] = 1
 
     model, device = load_model(image_only_parameters)
 
@@ -73,7 +73,6 @@ def run_model_column(row): #cropped_png_location, subject_id): #row): #df):
     for data_batch in tools.partition_batch(range(image_only_parameters["num_epochs"]), image_only_parameters["batch_size"]):
         batch = []
         for _ in data_batch:
-            print("BATCHING")
             batch.append(process_augment_inputs(
                 model_input=model_input,
                 random_number_generator=random_number_generator,

@@ -5,6 +5,13 @@ import matplotlib.pyplot as plt
 
 def get_roc_curve(meta):
 
+    ### Using ASSESSMENT for true labels
+    #meta["true_benign"], meta["true_malignant"] = 0, 0
+    #meta.loc[(meta["assessment"] != 1) | (meta["assessment"] != 2), "true_benign"] = 1
+    #meta.loc[(meta["assessment"] == 4) | (meta["assessment"] == 5) | (meta["assessment"] == 6), "true_malignant"] = 1
+    #meta = meta.drop(meta[meta["assessment"] == 3].index)
+
+    ### Using PATHOLOGY for true labels
     # Assign actual pathology to 1 or 0 for both classes (benign and malignant)
     meta["true_benign"], meta["true_malignant"] = 0, 0
     meta.loc[(meta["pathology"] != "MALIGNANT"), "true_benign"] = 1
