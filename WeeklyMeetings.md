@@ -12,6 +12,7 @@ We've talked about different datasets and models based on research papers in the
 
 I suggest we talk about the following:
 
+**Overall goal: Define the steps needed before I can trust the results of model tests**
 - What should I use as true labels in the CBIS data set?
   - Rows correspond to segmentation labels, not whole images
   - Further, the rows contain both **biopsy pathology** and **radiologist assessment**, and they produce slightly difference AOC results. The paper mentions that >30% of the cases in their own data are not present on mammograms but only found through biopsy.
