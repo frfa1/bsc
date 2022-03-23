@@ -36,7 +36,7 @@ I suggest we talk about the following:
 **What would you like to work on next week?**
 - Test the model on INbreast also, which I hypothesize will yield worse results, as the model is trained on CBIS (and therefore only knows that data distribution). This can “prove” lack of model robustness on mammography scanners and image preprocessing (aka hidden features)
 - Try transfer learning on the model with INbreast
-- 
+
 **Where do you need help from Veronika?**
 - Inputs to transfer learning strategy
 - Any inputs to the above
