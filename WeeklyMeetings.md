@@ -26,15 +26,18 @@ I suggest we talk about the following:
 
 ## 24-03-2022
 **What did you achieve?**
-  - Found an existing model and got better than random AUC results on CBIS-DDSM test (77%)
+- Found an existing model and got better than random AUC results on CBIS-DDSM test (77%)
+
 **What did you struggle with?**
-  - Might need a plan for using the model in the context of hidden features.
+- Might need a plan for using the model in the context of hidden features.
   - I.e. is 77% good enough results to do error analysis on the cases?
   - The model Github has tools to apply transfer learning on a new data set, which may be beneficial to “fix” errors on hidden features. But I need a good strategy first
+
 **What would you like to work on next week?**
-  - Test the model on INbreast also, which I hypothesize will yield worse results, as the model is trained on CBIS (and therefore only knows that data distribution). This can “prove” lack of model robustness on mammography scanners and image preprocessing (aka hidden features)
-  - Try transfer learning on the model with INbreast
+- Test the model on INbreast also, which I hypothesize will yield worse results, as the model is trained on CBIS (and therefore only knows that data distribution). This can “prove” lack of model robustness on mammography scanners and image preprocessing (aka hidden features)
+- Try transfer learning on the model with INbreast
+- 
 **Where do you need help from Veronika?**
-  - Inputs to transfer learning strategy
-  - Any inputs to the above
+- Inputs to transfer learning strategy
+- Any inputs to the above
 
