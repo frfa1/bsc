@@ -41,3 +41,8 @@ I suggest we talk about the following:
 - Inputs to transfer learning strategy
 - Any inputs to the above
 
+**Conclusion / Next steps**
+- Find which subsets of the test sets have hidden features, e.g. pacemaker
+- Unbiasing / debiasing / fairness-aware methods
+
+
