@@ -45,4 +45,24 @@ I suggest we talk about the following:
 - Find which subsets of the test sets have hidden features, e.g. pacemaker
 - Unbiasing / debiasing / fairness-aware methods
 
+## 06-04-2022
+**What did you achieve?**
+- Looked through all CBIS and INBreast images in search for hidden features
+- Found another mammography dataset (from Saudi Arabia) with multiple instances of implants
+- Started working on the cluster 
+
+**What did you struggle with?**
+- Finding relevant hidden features in CBIS and INBreast
+  - In all of CBIS (train+test), I only found 1 pacemaker, 0 implants, some cases with an unnaturally "even" circle, and a good bunch of cases with text
+- Setting up a virtualenv on cluster, which is required to run the external Github (waiting answer from support)
+
+**What would you like to work on next week?**
+- Since the newly found dataset contains implants instances, I would like to try a couple of things on the cluster:
+  - Test the model (which has been trained on CBIS) on this dataset
+  - Transfer learn the model on the new data with different splits (one split where instances of implants are only present in the test set, and one where instances are present in both train and test set). This way, I check if the model struggles on cases of implants, and if it is fixable through including these types of cases in train.
+
+**Where do you need help from Veronika?**
+- Any inputs to the above
+
+
 
