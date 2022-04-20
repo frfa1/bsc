@@ -64,5 +64,23 @@ I suggest we talk about the following:
 **Where do you need help from Veronika?**
 - Any inputs to the above
 
+## 20-04-2022
+**What did you achieve?**
+- Labeled all CBIS official test test throughouly
+- Wrote script to temporarily put images with a certain feature / BIRAD into a temporary folder, to test them on the model (the model expects a folder of images as input)
+  - Then realised it's smarter simply to run a single experiement, and segment results after
+- I began writing the report and have described the CBIS dataset
+
+**What did you struggle with?**
+- The final processing decision of the data with regards to group ambigious cases.
+- I need to find a way to map the input test cases/images to the output posterior probabilities from the model
+- Tensorflow 1.15 still not working with GPU on HPC Cluster. Still in dialogue with Lottie after Easter break, who has just installed cuda10.0 and cudnn7.4 on cluster - still no luck.
+
+**What would you like to work on next week?**
+- The points above, especially 1 and especially 2, to get the results
+- If bottlenecks occur, I will work on the report or duplicate the text images without the text
+
+**Where do you need help from Veronika?**
+- Any inputs to the above
 
 
