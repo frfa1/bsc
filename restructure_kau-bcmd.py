@@ -29,11 +29,16 @@ def restructure_kau_bcmd():
     for f in listOfFiles:
         if f.endswith(".jpg"):
             print(f)
-            filename = f.split("/")[-1].split(".")[0].replace(" ", "") + ".png"
-            im1 = Image.open(f)
+            #filename = f.split("/")[-1].split(".")[0].replace(" ", "") + ".png"
+            filename = f.split("/")[-1].replace(" ", "")
+            shutil.copy(
+                f, #src_path
+                os.path.join(all_img, filename) #dst_path
+            )
+            """im1 = Image.open(f)
             im1.save(
                 os.path.join(all_img, filename)
-            )
+            )"""
 
     #im1 = Image.open(filename)
     #im1.save(r'path where the PNG will be stored\new file name.png')
