@@ -32,10 +32,10 @@ def restructure_ddsm_train():
     all_meta = all_test.merge(meta, on="Subject ID")
 
     # Remove cases with ambiguous labels, as those correspond to ROI-level labels (rather than whole image)
-    counts = all_meta.groupby(["image file path"])["pathology"].nunique().reset_index(name='count') \
+    """counts = all_meta.groupby(["image file path"])["pathology"].nunique().reset_index(name='count') \
                                 .sort_values(['count'], ascending=False)
     multi_label_list = list(counts[counts["count"] > 1]["image file path"])
-    all_meta = all_meta[~all_meta["image file path"].isin(multi_label_list)]
+    all_meta = all_meta[~all_meta["image file path"].isin(multi_label_list)]"""
 
     # Remove duplicate by Subject ID. Note: Subject ID contains patient ID, view and L/R.
     # It is the same as removing duplicates by File Name.
@@ -59,11 +59,14 @@ def restructure_ddsm_train():
         ), axis=1
     )
 
-    # Save merged and updated meta data to CSV
+    """# Save merged and updated meta data to CSV
+    meta_folder = basepath + "/meta"
+    if not os.path.exists(meta_folder):
+        os.mkdir(meta_folder)
     all_meta.to_csv(
-        "meta_data/cbis-ddsm/train_meta_with_png.csv",
+        meta_folder + "/train_meta_with_png.csv",
         index = False,
-    )
+    )"""
 
 # Function to restructure a single image file location, and return the new location
 def restructure_file_location(basepath, new_img_base, subject_id, old_file_location):

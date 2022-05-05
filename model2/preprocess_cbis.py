@@ -6,10 +6,13 @@ from PIL import Image
 
 # Inserting siebling folder to sys. Ensures other code can be ran
 # Note: Must have breast_cancer_classifier folder in the parent of the current folder
-sys.path.insert(1, os.path.abspath("../../end2end-all-conv"))
+#sys.path.insert(1, os.path.abspath("../../end2end-all-conv"))
+# Inserting parent folder in sys, to allow imports
+sys.path.append("..")
 
 # Github library
-from dm_image import read_resize_img
+#from dm_image import read_resize_img
+from load_preprocess.load_meta import get_cbis_test
 import pathlib
 import png
 
@@ -19,10 +22,14 @@ from os import path
 
 def preprocess_cbis(meta):
 
+    """ Puts CBIS test images into folder with negative/positive subfolders """
+
+    old_base = "../../data/cbis-ddsm/all_test_img"
+
     count = 0
     for row in meta.itertuples():
 
-        old_img = "../" + row.new_img_location
+        old_img = old_base + "/" + row._1 + ".png"
         full_file = "../../data/cbis-ddsm/neg_pos_split/"
         filename = old_img.split("/")[-1]
         
@@ -60,7 +67,7 @@ def preprocess_cbis(meta):
             print("Done with image #", count)
 
 def main():
-    meta = pd.read_csv("../meta_data/cbis-ddsm/test_meta_with_png.csv")
+    meta = get_cbis_test() # meta is the meta data of CBIS test
     preprocess_cbis(meta)
 
 if __name__ == "__main__":

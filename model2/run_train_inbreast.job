@@ -1,0 +1,61 @@
+#!/bin/bash
+
+#SBATCH --job-name=test-cbis    # Job name
+#SBATCH --output=test-cbis.%j.out      # Name of output file (%j expands to jobId)
+#SBATCH --cpus-per-task=8        # Schedule 8 cores (includes hyperthreading)
+:: #SBATCH --gres=gpu:a30:1              # Schedule a GPU # gres=gpu
+#SBATCH --exclude=desktop[1-12]    # Avoid 8gb memory nodes
+#SBATCH --mem-per-cpu=32    # Memory per core
+#SBATCH --time=03:00:00          # Run time (hh:mm:ss) - run for one hour max
+#SBATCH --partition=red    # Run on either the red or brown queue
+
+module purge
+
+module load Python/3.7.4-GCCcore-8.3.0
+module load TensorFlow/1.15.2-fosscuda-2019b-Python-3.7.4
+module load Pillow/6.2.1-GCCcore-8.3.0
+module load scikit-learn/0.21.3-foss-2019b-Python-3.7.4
+
+VENVNAME="venv1"
+
+source $HOME/bsc/venvs/$VENVNAME/bin/activate
+
+export PYTHONPATH=$PYTHONPATH:$HOME/bsc/end2end-all-conv
+
+TRAIN_DIR="../../data/INbreast/train"
+VAL_DIR="../../data/INbreast/val"
+TEST_DIR="../../data/INbreast/test"
+RESUME_FROM="../../end2end-all-conv/trained_models/ddsm_vgg16_s10_[512-512-1024]x2_hybrid.h5"
+BEST_MODEL="../../end2end-all-conv/trained_models/transferred_inbreast_best_model_best.h5"
+FINAL_MODEL="../../end2end-all-conv/trained_models/transferred_inbreast_best_model_final.h5" #"NOSAVE"
+export NUM_CPU_CORES=8
+
+python image_clf_train.py \
+    --no-patch-model-state \
+    --resume-from $RESUME_FROM \
+    --img-size 1152 896 \
+    --no-img-scale \
+    --rescale-factor 0.003891 \
+    --featurewise-center \
+    --featurewise-mean 29.1977 \
+    --no-equalize-hist \
+    --batch-size 4 \
+    --train-bs-multiplier 0.5 \
+    --augmentation \
+    --class-list neg pos \
+    --nb-epoch 0 \
+    --all-layer-epochs 50 \
+    --load-val-ram \
+    --load-train-ram \
+    --optimizer adam \
+    --weight-decay 0.001 \
+    --hidden-dropout 0.0 \
+    --weight-decay2 0.01 \
+    --hidden-dropout2 0.0 \
+    --init-learningrate 0.0001 \
+    --all-layer-multiplier 0.01 \
+    --es-patience 10 \
+    --auto-batch-balance \
+    --best-model $BEST_MODEL \
+    --final-model $FINAL_MODEL \
+    $TRAIN_DIR $VAL_DIR $TEST_DIR

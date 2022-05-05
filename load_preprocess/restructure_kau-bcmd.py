@@ -3,7 +3,7 @@ import pathlib
 import sys, os, glob, shutil
 from PIL import Image
 
-from dicom_to_png16 import save_dicom_image_as_png
+from preprocess.dicom_to_png16 import save_dicom_image_as_png
 
 # Options to display Pandas dataframes in terminal
 #pd.set_option('display.max_rows', 500)
