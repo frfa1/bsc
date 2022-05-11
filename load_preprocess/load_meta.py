@@ -34,6 +34,38 @@ def get_cbis_test(whole_image_labels=True):
 
     return all_meta
 
+def get_cbis_train(whole_image_labels=True):
+    basepath = "../../data/cbis-ddsm"
+
+    # Get specific test meta data
+    calc_test = pd.read_csv(basepath + "/calc_case_description_train_set.csv")
+    mass_test = pd.read_csv(basepath + "/mass_case_description_train_set.csv")
+
+    # Align their columns
+    calc_test = calc_test.rename(columns={
+        "breast density":"breast_density",
+        })
+
+    # Concat test cases
+    all_test = pd.concat([calc_test, mass_test])
+    all_test["Subject ID"] = all_test["image file path"].str.split("/").str[0]
+
+    # Join with general meta data
+    meta = pd.read_csv(basepath + "/manifest-ZkhPvrLo5216730872708713142/metadata2.csv")
+    all_meta = all_test.merge(meta, on="Subject ID")
+
+    if whole_image_labels:
+        # Labeling whole images: Malignant if any malignant ROI, benign otherwise
+        # Returns just Subject ID and pathology for whole image
+        all_meta["true_benign"], meta["true_malignant"] = 0, 0
+        pos_cases = all_meta[all_meta["pathology"] == "MALIGNANT"]["Subject ID"] # Get an iterable with all cases that contains a positive (malignant) segment
+        all_meta["true_malignant"] = np.where(all_meta["Subject ID"].isin(pos_cases), 1, 0)
+        all_meta["true_benign"] = np.where(all_meta["Subject ID"].isin(pos_cases), 0, 1)
+        all_meta.drop_duplicates(subset=["Subject ID"], inplace=True) # Removes duplicates
+        all_meta = all_meta[["Subject ID", "pathology", "true_malignant", "true_benign"]]
+
+    return all_meta
+
 def get_inbreast_medical_report(meta):
     basepath = "../../data/inbreast"
     img_folder = basepath + "/png_versions"
