@@ -7,6 +7,7 @@ import sys
 # Inserting parent folder in sys, to allow imports
 sys.path.append("..")
 from load_preprocess.load_meta import get_cbis_test
+from load_preprocess.load_meta import get_inbreast
 
 def get_auc(true_malignant, pred_malignant, save_roc_as=None):
 
@@ -63,6 +64,30 @@ def get_raidiolgist_auc(meta, feature=None, save=False):
             "../../data/cbis-ddsm/results/ablation/" + save,
             index = False
         )"""
+
+def inbreast_test_end2end_auc(save=False):
+    meta_pred = pd.read_csv(
+        "../../data/INbreast/results/end2end_inbreast_test_results.csv"
+    )
+
+    model_names = [
+        'res_pred_pos',
+       'vgg_pred_pos',
+       'hybrid_pred_pos',
+       'res_pred_pos_aug',
+       'vgg_pred_pos_aug',
+       'hybrid_pred_pos_aug'
+    ]
+
+    for model in model_names:
+        print("Getting AUC for", model)
+        print(
+            get_auc(
+                meta_pred["true_pos"], # True labels
+                meta_pred[model]
+            )
+        )
+
 
 def cbis_test_end2end_auc(meta, feature=None, ablation=True, save=False):
 
@@ -210,7 +235,7 @@ def cbis_test_end2end_auc(meta, feature=None, ablation=True, save=False):
 
 
 def main():
-    meta = pd.read_csv(
+    """meta = pd.read_csv(
         "../../data/cbis-ddsm/results/end2end_cbis_test_results.csv"
     )
     features = [
@@ -226,7 +251,9 @@ def main():
 
     for feature in features:
         get_raidiolgist_auc(meta, feature=feature[0])
-    get_raidiolgist_auc(meta)
+    get_raidiolgist_auc(meta)"""
+
+    inbreast_test_end2end_auc()
 
 if __name__ == "__main__":
     main()

@@ -4,8 +4,8 @@ print("Loading libraries")
 import sys, os, shutil, PIL
 
 # Avoid running on GPU
-os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"
-os.environ["CUDA_VISIBLE_DEVICES"]="0"
+#os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"
+#os.environ["CUDA_VISIBLE_DEVICES"]="0"
 
 from functools import reduce
 from pathlib import Path
@@ -13,8 +13,17 @@ import pandas as pd
 from PIL import Image
 import numpy as np
 import keras
+
+# Following block is extra
+import tensorflow as tf 
+config = tf.ConfigProto()
+config.gpu_options.per_process_gpu_memory_fraction = 0.9  # 0.6 sometimes works better for folks
+keras.backend.tensorflow_backend.set_session(tf.Session(config=config))
+
 #import tensorflow as tf
 print("Libraries loaded")
+
+#exit() # For troubleshooting -- Error happens just on keras/tensorflow import, when GPU is available /Frederik
 
 # Inserting siebling folder to sys. Ensures other code can be ran
 # Note: Must have end2end-all-conv folder in the parent of the current folder
@@ -30,7 +39,7 @@ vgg_mod = load_model(github_path + '/trained_models/ddsm_vgg16_s10_512x1.h5', co
 hybrid_mod = load_model(github_path + '/trained_models/ddsm_vgg16_s10_[512-512-1024]x2_hybrid.h5', compile=False)
 
 # Data path
-folder_path = os.path.abspath("../../data/cbis-ddsm/tmp_neg_pos")
+folder_path = os.path.abspath("../../data/cbis-ddsm/neg_pos_split")
 folder_path = Path(folder_path)
 
 ## Get pixel mean
@@ -149,6 +158,10 @@ data_frames = [
 df_merged = reduce(
     lambda  left,right: pd.merge(left,right,on=['Filename'], how='outer'), data_frames
     )
+
+print("\n")
+print("--- SCRIPT FINISHED! ---")
+print(df_merged)
 
 
 # Save merged and updated meta data to CSV
