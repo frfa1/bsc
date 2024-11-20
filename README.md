@@ -1,6 +1,8 @@
 # Finding Hidden Features Responsible For Machine Learning Failures In Breast Cancer Detection on Screening Mammography
 
-Bachelor Project, May 2022.
+_Bachelor Project, May 2022._
+
+The goal of this project was to find and evaluate hidden features of deep neural networks used in medical imaging. Particularly, two models with promising results in the field of breast cancer detection (mammography) were evaluated, and hidden features such as "scar marker", "nipple marker", "text", etc., were identified and evaluated the impact of. **For more details, go to [the report](https://github.com/frfa1/bsc/blob/main/Hidden_Features_in_Medicinal_Imaging_Report_column.pdf)**.
 
 ## Prerequisite
 
